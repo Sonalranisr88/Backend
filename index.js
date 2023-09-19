@@ -5,31 +5,25 @@ import {fileURLToPath} from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app=express();
-const port= 3000;
-var userIsAuthorised =false;
+const port= 3001;
+var bandName ="";
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-function passwordCheck(req,res,next){
-    const password= req.body["password"];
-    if (password === "Sonalrani"){
-        userIsAuthorised=true;
-    }
+function bandNameGenerator(req,res,next){
+    console.log(req.body);
+    bandName = req.body["street"] + req.body["pet"];
     next();
 }
 
-app.use(passwordCheck);
+app.use(bandNameGenerator);
 
 app.get("/",(req,res) => {
     res.sendFile(__dirname + "/index.html");
 });
 
-app.post("/check",(req,res)=> {
-    if(userIsAuthorised){
-        res.sendFile(__dirname + "/secret.html");
-    }else{
-        res.sendFile(__dirname + "/index.html");
-    }
+app.post("/submit",(req,res)=> {
+    res.send(`<h1>Your band name is: </h1><h2>${bandName}</h2>`);
 });
 
 app.listen(port,() => {
