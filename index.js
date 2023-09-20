@@ -1,31 +1,28 @@
 import express from "express";
-import bodyParser from "body-parser";
-import {dirname} from "path";
-import {fileURLToPath} from "url";
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const app=express();
-const port= 3001;
-var bandName ="";
+const app = express();
+const port = 3001;
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.set("view engine","ejs")
+app.use(express.static("public"));   
 
-function bandNameGenerator(req,res,next){
-    console.log(req.body);
-    bandName = req.body["street"] + req.body["pet"];
-    next();
-}
+app.get("/", (req,res) => {
+    const today =new Date();
+    const day = today.getDay();
+    
+    let type="a weekday";
+    let adv="it's time to work hard";
 
-app.use(bandNameGenerator);
-
-app.get("/",(req,res) => {
-    res.sendFile(__dirname + "/index.html");
+    if(day ===0 || day ===6){
+        type="the weekend";
+        adv="it's time to have some fun";  
+    }
+    res.render( "index",{
+        dayType: type,
+        advice: adv,
+    });
 });
 
-app.post("/submit",(req,res)=> {
-    res.send(`<h1>Your band name is: </h1><h2>${bandName}</h2>`);
-});
-
-app.listen(port,() => {
-    console.log(`Listening on port ${port}`);
+app.listen(port, () => {
+    console.log(`Serving running on port ${port}`);
 });
