@@ -1,13 +1,13 @@
 {
-  "name": "embedded-javascript",
+  "name": "ejs-tags",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
+  "type":"module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Sonal rani",
+  "author": "Sonal Rani",
   "license": "ISC",
   "dependencies": {
     "ejs": "^3.1.9",
