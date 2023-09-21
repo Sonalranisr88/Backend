@@ -1,28 +1,20 @@
 import express from "express";
+const app= express();
+const port= 3000;
 
-const app = express();
-const port = 3001;
 
 app.set("view engine","ejs")
-app.use(express.static("public"));   
+app.use(express.static("public")); 
 
-app.get("/", (req,res) => {
-    const today =new Date();
-    const day = today.getDay();
-    
-    let type="a weekday";
-    let adv="it's time to work hard";
-
-    if(day ===0 || day ===6){
-        type="the weekend";
-        adv="it's time to have some fun";  
-    }
-    res.render( "index",{
-        dayType: type,
-        advice: adv,
-    });
+app.get("/",(req,res) =>{
+    const data ={
+        title: "EJS Tags",
+        seconds: new Date().getSeconds(),
+        items:["apple","banana","cherry"],
+        htmlContent: "<strong>This is some Strong text.</strong>"
+    };
+    res.render("index",data);
 });
-
-app.listen(port, () => {
-    console.log(`Serving running on port ${port}`);
+app.listen(port,() =>{
+    console.log(`Server is running on port ${port}`)
 });
